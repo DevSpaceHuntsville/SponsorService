@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>DevSpaceHuntsville.SponsorService.Database.Sql</AssemblyName>
+    <RootNamespace>DevSpaceHuntsville.SponsorService.Database.Sql</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\000-InitialCreate.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\000-InitialCreate.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SponsorService.Database\SponsorService.Database.csproj" />
+  </ItemGroup>
+
+</Project>
