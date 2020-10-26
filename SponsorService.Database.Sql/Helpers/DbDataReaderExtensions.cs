@@ -9,7 +9,7 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 		internal async static Task<IEnumerable<T>> ReadJson<T>( this DbDataReader reader ) {
 			StringBuilder sb = new StringBuilder();
 			while( await reader.ReadAsync() ) sb.Append( reader.GetString( 0 ) );
-			return JsonConvert.DeserializeObject<IEnumerable<T>>( sb.ToString() );
+			return JsonConvert.DeserializeObject<IEnumerable<T>>( sb.Length == 0 ? "[]" : sb.ToString() );
 		}
 	}
 }

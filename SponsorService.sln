@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService.Database.Sql
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService.Database.Sql.Test", "SponsorService.Database.Sql.Test\SponsorService.Database.Sql.Test.csproj", "{E80E9979-88C1-4602-B006-C63E10B44D80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SponsorService", "SponsorService\SponsorService.csproj", "{535911EC-4032-4BAF-B026-A3389F02EA02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService", "SponsorService\SponsorService.csproj", "{535911EC-4032-4BAF-B026-A3389F02EA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SponsorService.Tests", "SponsorService.Tests\SponsorService.Tests.csproj", "{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{535911EC-4032-4BAF-B026-A3389F02EA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{535911EC-4032-4BAF-B026-A3389F02EA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{535911EC-4032-4BAF-B026-A3389F02EA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

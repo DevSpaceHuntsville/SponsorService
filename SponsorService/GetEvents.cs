@@ -1,29 +1,34 @@
-using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using DevSpace.Common.Entities;
+using DevSpaceHuntsville.SponsorService.Database;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using DevSpaceHuntsville.SponsorService.Database.Sql;
-using System.Collections.Generic;
-using DevSpace.Common.Entities;
 
 namespace SponsorService {
-	public static class GetEvents {
+	public class GetEvents {
+		private readonly IConfiguration Configuration;
+		private readonly IDatabase Database;
+
+		public GetEvents( IConfiguration config, IDatabase database ) {
+			this.Database = database;
+			this.Configuration = config;
+		}
+
 		[FunctionName( "GetEvents" )]
-		public static async Task<IActionResult> Run(
+		public async Task<IActionResult> Run(
 			[HttpTrigger( AuthorizationLevel.Anonymous, "get", Route = null )] HttpRequest request,
 			ILogger log
 		) {
 			log.LogInformation( "GetEvents processed a request." );
 
-			SqlDatabase database = new SqlDatabase( Environment.GetEnvironmentVariable( "SQL" ) );
-			IEnumerable<Event> events = await database.EventsRepository.Get();
-
-			return new OkObjectResult( JsonConvert.SerializeObject( events ) );
+			IEnumerable<Event> events = await Database.EventsRepository.Get();
+			return new OkObjectResult( events );
 		}
 	}
 }
