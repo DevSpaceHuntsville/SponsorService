@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
-using DevSpace.Common.Entities;
+using System.Web.Http;
 using DevSpaceHuntsville.SponsorService.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace SponsorService {
 	public class GetEvents {
@@ -27,8 +26,14 @@ namespace SponsorService {
 		) {
 			log.LogInformation( "GetEvents processed a request." );
 
-			IEnumerable<Event> events = await Database.EventsRepository.Get();
-			return new OkObjectResult( events );
+			try {
+				return new OkObjectResult( await this.Database.EventsRepository.Get() );
+			} catch( Exception ex ) {
+				log.LogError( ex, "GetEvents threw an exception." );
+				return new InternalServerErrorResult();
+			} finally {
+				log.LogInformation( "GetEvents finished a request." );
+			}
 		}
 	}
 }
