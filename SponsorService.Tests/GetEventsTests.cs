@@ -34,7 +34,7 @@ namespace SponsorService.Tests {
 		[Fact]
 		public async Task Run() {
 			IEnumerable<Event> expected = Enumerable.Range( 2018, 4 )
-				.Select( i => new Event( i, $"DevSpace {i}" ) );
+				.Select( i => new Event( i, $"DevSpace {i}", DateTime.Today.AddDays( -i ), DateTime.Today.AddDays( i ) ) );
 
 			Mock
 				.Arrange( () => this.EventsRepository.Get( default ) )

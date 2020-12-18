@@ -20,7 +20,7 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 
 			using DbCommand dbCommand = dbConnection.CreateCommand();
 			//dbCommand.CommandText = "SELECT Id, Name FROM Events FOR JSON PATH, INCLUDE_NULL_VALUES;";
-			dbCommand.CommandText = "SELECT Id AS id, Name AS name FROM Events FOR JSON PATH, INCLUDE_NULL_VALUES;";
+			dbCommand.CommandText = "SELECT Id AS id, Name AS name, StartDate AS startDate, EndDate as endDate FROM Events FOR JSON PATH, INCLUDE_NULL_VALUES;";
 
 			using DbDataReader reader = await dbCommand.ExecuteReaderAsync( cancelToken );
 			return await reader.ReadJson<Event>();
