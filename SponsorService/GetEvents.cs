@@ -9,12 +9,12 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace SponsorService {
+namespace DevSpaceHuntsville.SponsorService {
 	public class GetEvents {
 		private readonly IConfiguration Configuration;
-		private readonly IDatabase Database;
+		private readonly ISponsorServiceDatabase Database;
 
-		public GetEvents( IConfiguration config, IDatabase database ) {
+		public GetEvents( IConfiguration config, ISponsorServiceDatabase database ) {
 			this.Database = database;
 			this.Configuration = config;
 		}
@@ -27,7 +27,7 @@ namespace SponsorService {
 			log.LogInformation( "GetEvents processed a request." );
 
 			try {
-				return new OkObjectResult( await this.Database.EventsRepository.Get() );
+				return new OkObjectResult( await this.Database.EventsRepository.Select() );
 			} catch( Exception ex ) {
 				log.LogError( ex, "GetEvents threw an exception." );
 				return new InternalServerErrorResult();

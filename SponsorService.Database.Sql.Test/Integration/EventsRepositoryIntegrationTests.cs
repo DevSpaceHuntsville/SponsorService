@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DevSpace.Common.Entities;
-using SponsorService.Database.Sql.Test.Integration;
 using Xunit;
 
 namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
@@ -19,7 +18,7 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 				new Event( 2020, "DevSpace 2020", DateTime.Parse( "2020-09-11 00:00:00" ), DateTime.Parse( "2020-09-11 00:00:00" ) )
 			};
 
-			IEnumerable<Event> actual = await Repository.Get();
+			IEnumerable<Event> actual = await Repository.Select();
 
 			Assert.Equal( expected, actual );
 		}

@@ -4,13 +4,13 @@ using DevSpaceHuntsville.SponsorService.Database.Sql;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup( typeof( SponsorService.Startup ) )]
+[assembly: FunctionsStartup( typeof( DevSpaceHuntsville.SponsorService.Startup ) )]
 
-namespace SponsorService {
+namespace DevSpaceHuntsville.SponsorService {
 	public class Startup : FunctionsStartup {
 		public override void Configure( IFunctionsHostBuilder builder ) {
-			builder.Services.AddSingleton<IDatabase>( ( s ) => {
-				return new SqlDatabase( Environment.GetEnvironmentVariable( "SQL" ) );
+			builder.Services.AddSingleton<ISponsorServiceDatabase>( ( s ) => {
+				return new SqlSponsorServiceDatabase( Environment.GetEnvironmentVariable( "SQL" ) );
 			} );
 
 			//builder.Services.AddSingleton<ILoggerProvider, MyLoggerProvider>();

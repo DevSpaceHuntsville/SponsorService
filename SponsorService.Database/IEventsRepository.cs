@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using DevSpace.Common.Entities;
+﻿using DevSpace.Common.Entities;
+using Freestylecoding.MockableDatabase;
 
 namespace DevSpaceHuntsville.SponsorService.Database {
-	public interface IEventsRepository {
-		Task<IEnumerable<Event>> Get( CancellationToken cancelToken = default );
-	}
+	public interface IEventsRepository : ISelectable<Event,int> {}
 }

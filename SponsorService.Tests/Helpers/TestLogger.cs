@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace SponsorService.Tests.Helpers {
+namespace DevSpaceHuntsville.SponsorService.Tests.Helpers {
 	internal class LogData {
 		public LogLevel LogLevel;
 		public EventId EventId;

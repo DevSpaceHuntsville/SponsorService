@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Freestylecoding.MockableSqlDatabase;
 
 namespace DevSpaceHuntsville.SponsorService.Database.Sql {
-	public class SqlDatabase : IDatabase {
-		public SqlDatabase()
+	public class SqlSponsorServiceDatabase : SqlDatabase, ISponsorServiceDatabase {
+		public SqlSponsorServiceDatabase()
 			: this(
 				Environment.GetEnvironmentVariable( SQL_CONNSTR_VARIABLE_NAME, EnvironmentVariableTarget.Process )
 				?? ConfigurationManager.ConnectionStrings[SQL_CONNSTR_VARIABLE_NAME]?.ConnectionString
 				?? "Server=localhost;Database=DevSpace;Trusted_Connection=True;"
-			) { }
-
-		public SqlDatabase( string connectionString ) {
-			this.ConnectionString = connectionString;
+			) { }		
+		public SqlSponsorServiceDatabase( string connectionString )
+			: base( connectionString ) {
 			UpdateDatabase();
 		}
+
+		public IEventsRepository EventsRepository => new EventsRepository( this );
 
 		private void UpdateDatabase() {
 			using( SqlConnection connection = new SqlConnection( ConnectionString ) ) {
@@ -89,28 +89,6 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 			}
 		}
 
-		#region IDatabase
-		public DbConnection GetConnection() =>
-			new SqlConnection( this.ConnectionString );
-		public DbParameter CreateParameter( string parameterName, DbType dbType, object value ) =>
-			new SqlParameter {
-				Value = value ?? DBNull.Value,
-				ParameterName = parameterName,
-				DbType = dbType
-			};
-		public DbParameter CreateParameter( string parameterName, DbType dbType, int size, object value ) =>
-			new SqlParameter {
-				Value = value ?? DBNull.Value,
-				ParameterName = parameterName,
-				DbType = dbType,
-				Size = size
-			};
-
-		public IEventsRepository EventsRepository => new EventsRepository( this );
-		#endregion
-
 		private const string SQL_CONNSTR_VARIABLE_NAME = "SQL:Sponsors";
-
-		private readonly string ConnectionString;
 	}
 }

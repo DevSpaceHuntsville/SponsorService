@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>DevSpaceHuntsville.SponsorService.Tests</AssemblyName>
+
+    <RootNamespace>DevSpaceHuntsville.SponsorService.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

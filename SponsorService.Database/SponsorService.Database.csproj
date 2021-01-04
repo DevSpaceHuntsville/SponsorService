@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DevSpace.Common.Entities" Version="0.2.1" />
+    <PackageReference Include="Freestylecoding.MockableDatabase" Version="0.9.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>

@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Reflection;
-using System.Text;
-using DevSpaceHuntsville.SponsorService.Database;
-using DevSpaceHuntsville.SponsorService.Database.Sql;
-using Telerik.JustMock;
+﻿using System.Linq;
 
-namespace SponsorService.Database.Sql.Test.Unit {
+namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Unit {
 	public class TestBase<T> where T : class {
 		protected readonly T Repository;
-		protected readonly IDatabase Database;
+		protected readonly MockSponsorServiceDatabase Database;
 
 		public TestBase() {
-			this.Database = Mock.Create<IDatabase>();
-			this.Repository = Mock.Create<T>();
-
-			Mock
-				.Arrange( () => this.Database.EventsRepository )
-				.Returns( this.Repository );
-		}
+			this.Database = new MockSponsorServiceDatabase();
+			this.Repository = typeof( T )
+				.GetConstructors()
+				.Single( ctor => ctor.GetParameters().Length == 1 )
+				.Invoke( new object[] { Database } )
+				as T;
+		}			
 	}
 }

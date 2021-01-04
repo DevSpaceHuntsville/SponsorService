@@ -4,11 +4,16 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>DevSpaceHuntsville.SponsorService.Database.Sql.Test</AssemblyName>
+
+    <RootNamespace>DevSpaceHuntsville.SponsorService.Database.Sql.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JustMock" Version="2020.3.1019.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Freestylecoding.MockDatabase" Version="0.9.1" />
+    <PackageReference Include="JustMock" Version="2020.3.1124.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>

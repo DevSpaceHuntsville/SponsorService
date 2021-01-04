@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Reflection;
-using System.Text;
-using DevSpaceHuntsville.SponsorService.Database;
-using DevSpaceHuntsville.SponsorService.Database.Sql;
+﻿using System.Data.SqlClient;
 
-namespace SponsorService.Database.Sql.Test.Integration {
+namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 	public class TestBase<T> where T : class {
 		protected readonly T Repository;
-		protected readonly SqlDatabase Database;
+		protected readonly SqlSponsorServiceDatabase Database;
 
 		public TestBase() {
 			SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder {
@@ -18,9 +12,9 @@ namespace SponsorService.Database.Sql.Test.Integration {
 				IntegratedSecurity = true
 			};
 
-			Database = new SqlDatabase( scsb.ToString() );
+			Database = new SqlSponsorServiceDatabase( scsb.ToString() );
 			this.Repository = typeof( T )
-				.GetConstructor( new[] { typeof( IDatabase ) } )
+				.GetConstructor( new[] { typeof( ISponsorServiceDatabase ) } )
 				.Invoke( new object[] { this.Database } )
 				as T;
 		}

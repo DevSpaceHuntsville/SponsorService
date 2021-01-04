@@ -1,25 +1,25 @@
 ﻿using System;
-using Xunit;
-using Telerik.JustMock;
-using DevSpaceHuntsville.SponsorService.Database;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using DevSpace.Common.Entities;
 using System.Collections.Generic;
-using SponsorService.Tests.Helpers;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
+using DevSpace.Common.Entities;
+using DevSpaceHuntsville.SponsorService.Database;
+using DevSpaceHuntsville.SponsorService.Tests.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Telerik.JustMock;
+using Xunit;
 
-namespace SponsorService.Tests {
+namespace DevSpaceHuntsville.SponsorService.Tests {
 	public class GetEventsTests {
-		private readonly IDatabase Database;
+		private readonly ISponsorServiceDatabase Database;
 		private readonly GetEvents Controller;
 		private readonly IEventsRepository EventsRepository;
 
 		public GetEventsTests() {
-			this.Database = Mock.Create<IDatabase>();
+			this.Database = Mock.Create<ISponsorServiceDatabase>();
 			this.EventsRepository = Mock.Create<IEventsRepository>();
 
 			Mock
@@ -37,7 +37,7 @@ namespace SponsorService.Tests {
 				.Select( i => new Event( i, $"DevSpace {i}", DateTime.Today.AddDays( -i ), DateTime.Today.AddDays( i ) ) );
 
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Returns( Task.FromResult( expected ) );
 
 			TestLogger log = new TestLogger();
@@ -55,7 +55,7 @@ namespace SponsorService.Tests {
 			IEnumerable<Event> expected = Enumerable.Empty<Event>();
 
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Returns( Task.FromResult( expected ) );
 
 			TestLogger log = new TestLogger();
@@ -71,7 +71,7 @@ namespace SponsorService.Tests {
 		[Fact]
 		public async Task Error() {
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Throws<Exception>();
 
 			TestLogger log = new TestLogger();
@@ -83,7 +83,7 @@ namespace SponsorService.Tests {
 		[Fact]
 		public async Task LogsIntroMessage() {
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Returns( Task.FromResult( Enumerable.Empty<Event>() ) );
 
 			TestLogger log = new TestLogger();
@@ -97,7 +97,7 @@ namespace SponsorService.Tests {
 		[Fact]
 		public async Task LogsOutroMessage() {
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Returns( Task.FromResult( Enumerable.Empty<Event>() ) );
 
 			TestLogger log = new TestLogger();
@@ -113,7 +113,7 @@ namespace SponsorService.Tests {
 			Exception ex = new Exception();
 
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Throws( ex );
 
 			TestLogger log = new TestLogger();
@@ -132,7 +132,7 @@ namespace SponsorService.Tests {
 			Exception ex = new Exception();
 
 			Mock
-				.Arrange( () => this.EventsRepository.Get( default ) )
+				.Arrange( () => this.EventsRepository.Select( default ) )
 				.Throws( ex );
 
 			TestLogger log = new TestLogger();
