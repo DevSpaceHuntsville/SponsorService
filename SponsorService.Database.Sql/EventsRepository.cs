@@ -21,44 +21,50 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 		public IEnumerable<Event> BlockingSelect() => throw new System.NotImplementedException();
 
 		public async Task<Event> Select( int key, CancellationToken token = default ) {
-			using DbConnection dbConnection = Database.GetConnection();
-			await dbConnection.OpenAsync();
+			using( DbConnection dbConnection = Database.GetConnection() ) {
+				await dbConnection.OpenAsync();
 
-			using DbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = string.Format(
-				BaseSelectQuery,
-				"WHERE Id = @Id"
-			);
+				using( DbCommand dbCommand = dbConnection.CreateCommand() ) {
+					dbCommand.CommandText = string.Format(
+						BaseSelectQuery,
+						"WHERE Id = @Id"
+					);
 
-			dbCommand.Parameters.Add( Database.CreateParameter( "Id", DbType.Int32, key ) );
+					dbCommand.Parameters.Add( Database.CreateParameter( "Id", DbType.Int32, key ) );
 
-			using DbDataReader reader = await dbCommand.ExecuteReaderAsync( token );
-			return ( await reader.ReadJson<Event>() ).FirstOrDefault();
+					using( DbDataReader reader = await dbCommand.ExecuteReaderAsync( token ) )
+						return ( await reader.ReadJson<Event>() ).FirstOrDefault();
+				}
+			}
 		}
 		public async Task<IEnumerable<Event>> Select( IEnumerable<int> keys, CancellationToken token = default ) {
 			if( !keys?.Any() ?? true ) return Enumerable.Empty<Event>();
 
-			using DbConnection dbConnection = Database.GetConnection();
-			await dbConnection.OpenAsync();
+			using( DbConnection dbConnection = Database.GetConnection() ) {
+				await dbConnection.OpenAsync();
 
-			using DbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = string.Format(
-				BaseSelectQuery,
-				$"WHERE Id IN ( {string.Join( ", ", keys )} )"
-			);
+				using( DbCommand dbCommand = dbConnection.CreateCommand() ) {
+					dbCommand.CommandText = string.Format(
+						BaseSelectQuery,
+						$"WHERE Id IN ( {string.Join( ", ", keys )} )"
+					);
 
-			using DbDataReader reader = await dbCommand.ExecuteReaderAsync( token );
-			return await reader.ReadJson<Event>();
+					using( DbDataReader reader = await dbCommand.ExecuteReaderAsync( token ) )
+						return await reader.ReadJson<Event>();
+				}
+			}
 		}
 		public async Task<IEnumerable<Event>> Select( CancellationToken token = default ) {
-			using DbConnection dbConnection = Database.GetConnection();
-			await dbConnection.OpenAsync();
+			using( DbConnection dbConnection = Database.GetConnection() ) {
+				await dbConnection.OpenAsync();
 
-			using DbCommand dbCommand = dbConnection.CreateCommand();
-			dbCommand.CommandText = string.Format( BaseSelectQuery, string.Empty );
+				using( DbCommand dbCommand = dbConnection.CreateCommand() ) {
+					dbCommand.CommandText = string.Format( BaseSelectQuery, string.Empty );
 
-			using DbDataReader reader = await dbCommand.ExecuteReaderAsync( token );
-			return await reader.ReadJson<Event>();
+					using( DbDataReader reader = await dbCommand.ExecuteReaderAsync( token ) )
+						return await reader.ReadJson<Event>();
+				}
+			}
 		}
 
 		private const string BaseSelectQuery = @"
