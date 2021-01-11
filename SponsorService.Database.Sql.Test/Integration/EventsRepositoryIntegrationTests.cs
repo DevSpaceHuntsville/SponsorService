@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevSpace.Common.Entities;
@@ -14,16 +13,8 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 		#region Task<Event> Select( int key, CancellationToken token = default )
 		[Fact]
 		public async Task SelectOne() {
-			Event expected =
-				new Event(
-					2015,
-					"DevSpace 2015",
-					DateTime.Parse( "2015-10-15 00:00:00" ),
-					DateTime.Parse( "2015-10-16 00:00:00" )
-				);
-
-			Event actual = await Repository.Select( expected.Id );
-			Assert.Equal( expected, actual );
+			Event actual = await Repository.Select( TestData.Event2015.Id );
+			Assert.Equal( TestData.Event2015, actual );
 		}
 
 		[Fact]
@@ -35,18 +26,8 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 		#region Task<IEnumerable<Event>> Select( CancellationToken cancelToken = default )
 		[Fact]
 		public async Task SelectAll() {
-			IEnumerable<Event> expected = new[] {
-				new Event( 2015, "DevSpace 2015", DateTime.Parse( "2015-10-15 00:00:00" ), DateTime.Parse( "2015-10-16 00:00:00" ) ),
-				new Event( 2016, "DevSpace 2016", DateTime.Parse( "2015-10-14 00:00:00" ), DateTime.Parse( "2015-10-15 00:00:00" ) ),
-				new Event( 2017, "DevSpace 2017", DateTime.Parse( "2015-10-13 00:00:00" ), DateTime.Parse( "2015-10-14 00:00:00" ) ),
-				new Event( 2018, "DevSpace 2018", DateTime.Parse( "2015-10-12 00:00:00" ), DateTime.Parse( "2015-10-13 00:00:00" ) ),
-				new Event( 2019, "DevSpace 2019", DateTime.Parse( "2015-10-11 00:00:00" ), DateTime.Parse( "2015-10-12 00:00:00" ) ),
-				new Event( 2020, "DevSpace 2020", DateTime.Parse( "2020-09-11 00:00:00" ), DateTime.Parse( "2020-09-11 00:00:00" ) )
-			};
-
 			IEnumerable<Event> actual = await Repository.Select();
-
-			Assert.Equal( expected, actual );
+			Assert.Equal( TestData.AllEvents, actual );
 		}
 		#endregion
 
@@ -54,9 +35,9 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 		[Fact]
 		public async Task SelectSome() {
 			IEnumerable<Event> expected = new[] {
-				new Event( 2017, "DevSpace 2017", DateTime.Parse( "2015-10-13 00:00:00" ), DateTime.Parse( "2015-10-14 00:00:00" ) ),
-				new Event( 2018, "DevSpace 2018", DateTime.Parse( "2015-10-12 00:00:00" ), DateTime.Parse( "2015-10-13 00:00:00" ) ),
-				new Event( 2019, "DevSpace 2019", DateTime.Parse( "2015-10-11 00:00:00" ), DateTime.Parse( "2015-10-12 00:00:00" ) )
+				TestData.Event2017,
+				TestData.Event2018,
+				TestData.Event2019
 			};
 
 			IEnumerable<Event> actual = await Repository.Select( expected.Select( e => e.Id ) );
@@ -66,9 +47,9 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 		[Fact]
 		public async Task SelectSome_NoDuplicates() {
 			IEnumerable<Event> expected = new[] {
-				new Event( 2017, "DevSpace 2017", DateTime.Parse( "2015-10-13 00:00:00" ), DateTime.Parse( "2015-10-14 00:00:00" ) ),
-				new Event( 2018, "DevSpace 2018", DateTime.Parse( "2015-10-12 00:00:00" ), DateTime.Parse( "2015-10-13 00:00:00" ) ),
-				new Event( 2019, "DevSpace 2019", DateTime.Parse( "2015-10-11 00:00:00" ), DateTime.Parse( "2015-10-12 00:00:00" ) )
+				TestData.Event2017,
+				TestData.Event2018,
+				TestData.Event2019
 			};
 
 			IEnumerable<Event> actual =
@@ -84,9 +65,9 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql.Test.Integration {
 		[Fact]
 		public async Task SelectSome_SomeNotFound() {
 			IEnumerable<Event> expected = new[] {
-				new Event( 2017, "DevSpace 2017", DateTime.Parse( "2015-10-13 00:00:00" ), DateTime.Parse( "2015-10-14 00:00:00" ) ),
-				new Event( 2018, "DevSpace 2018", DateTime.Parse( "2015-10-12 00:00:00" ), DateTime.Parse( "2015-10-13 00:00:00" ) ),
-				new Event( 2019, "DevSpace 2019", DateTime.Parse( "2015-10-11 00:00:00" ), DateTime.Parse( "2015-10-12 00:00:00" ) )
+				TestData.Event2017,
+				TestData.Event2018,
+				TestData.Event2019
 			};
 
 			IEnumerable<Event> actual =
