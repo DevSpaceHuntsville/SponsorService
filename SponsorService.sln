@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService.Database.Sql
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService", "SponsorService\SponsorService.csproj", "{535911EC-4032-4BAF-B026-A3389F02EA02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SponsorService.Tests", "SponsorService.Tests\SponsorService.Tests.csproj", "{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SponsorService.Tests", "SponsorService.Tests\SponsorService.Tests.csproj", "{2D599C3E-89CD-45C4-8998-C1A2FE7BD6CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/SponsorService/Properties/ServiceDependencies/devspace-sponsor-api - Zip Deploy
+/SponsorService/Properties/serviceDependencies.devspace-sponsor-api - Zip Deploy.json

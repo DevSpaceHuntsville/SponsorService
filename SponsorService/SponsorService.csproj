@@ -4,9 +4,11 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
     <AssemblyName>DevSpaceHuntsville.SponsorService</AssemblyName>
     <RootNamespace>DevSpaceHuntsville.SponsorService</RootNamespace>
+    <UserSecretsId>9f011449-5944-4c91-b4ca-a45853f35901</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.10" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
   </ItemGroup>
   <ItemGroup>
