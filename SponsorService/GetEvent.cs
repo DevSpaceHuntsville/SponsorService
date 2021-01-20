@@ -26,7 +26,7 @@ namespace DevSpaceHuntsville.SponsorService {
 
 		[FunctionName( "GetEvent" )]
 		public async Task<IActionResult> Run(
-			[HttpTrigger( AuthorizationLevel.Anonymous, "get", Route = "events/{id}" )] HttpRequest req,
+			[HttpTrigger( AuthorizationLevel.Anonymous, "get", Route = "v1/events/{id}" )] HttpRequest req,
 			int id,
 			ILogger log
 		) {
