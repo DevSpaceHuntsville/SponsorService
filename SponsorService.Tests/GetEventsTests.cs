@@ -4,27 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DevSpace.Common.Entities;
-using DevSpaceHuntsville.SponsorService.Database;
 using DevSpaceHuntsville.SponsorService.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Telerik.JustMock;
 using Xunit;
 
 namespace DevSpaceHuntsville.SponsorService.Tests {
 	public class GetEventsTests {
-		private readonly ISponsorServiceDatabase Database;
+		private readonly MockSponsorServiceDatabase Database;
 		private readonly GetEvents Controller;
-		private readonly IEventsRepository EventsRepository;
 
 		public GetEventsTests() {
-			this.Database = Mock.Create<ISponsorServiceDatabase>();
-			this.EventsRepository = Mock.Create<IEventsRepository>();
-
-			Mock
-				.Arrange( () => this.Database.EventsRepository )
-				.Returns( this.EventsRepository );
+			this.Database = new MockSponsorServiceDatabase();
 
 			IConfiguration config = Mock.Create<IConfiguration>();
 
@@ -36,9 +30,7 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 			IEnumerable<Event> expected = Enumerable.Range( 2018, 4 )
 				.Select( i => new Event( i, $"DevSpace {i}", DateTime.Today.AddDays( -i ), DateTime.Today.AddDays( i ) ) );
 
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Returns( Task.FromResult( expected ) );
+			this.Database.AddJsonResult( JsonConvert.SerializeObject( expected ) );
 
 			TestLogger log = new TestLogger();
 			IActionResult actual = await this.Controller.Run( null, log );
@@ -54,9 +46,7 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 		public async Task NoResults() {
 			IEnumerable<Event> expected = Enumerable.Empty<Event>();
 
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Returns( Task.FromResult( expected ) );
+			this.Database.AddJsonResult( JsonConvert.SerializeObject( expected ) );
 
 			TestLogger log = new TestLogger();
 			IActionResult actual = await this.Controller.Run( null, log );
@@ -70,9 +60,7 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 
 		[Fact]
 		public async Task Error() {
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Throws<Exception>();
+			this.Database.AddSqlException();
 
 			TestLogger log = new TestLogger();
 			IActionResult actual = await this.Controller.Run( null, log );
@@ -82,9 +70,7 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 
 		[Fact]
 		public async Task LogsIntroMessage() {
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Returns( Task.FromResult( Enumerable.Empty<Event>() ) );
+			this.Database.AddJsonResult( "[]" );
 
 			TestLogger log = new TestLogger();
 			await this.Controller.Run( null, log );
@@ -96,9 +82,7 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 
 		[Fact]
 		public async Task LogsOutroMessage() {
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Returns( Task.FromResult( Enumerable.Empty<Event>() ) );
+			this.Database.AddJsonResult( "[]" );
 
 			TestLogger log = new TestLogger();
 			await this.Controller.Run( null, log );
@@ -110,11 +94,8 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 
 		[Fact]
 		public async Task LogsErrorMessage() {
-			Exception ex = new Exception();
-
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Throws( ex );
+			const string errorMessage = "LogsErrorMessage Message";
+			this.Database.AddSqlException( errorMessage );
 
 			TestLogger log = new TestLogger();
 			await this.Controller.Run( null, log );
@@ -122,18 +103,14 @@ namespace DevSpaceHuntsville.SponsorService.Tests {
 			Assert.Equal( 3, log.Data.Count() );
 
 			LogData actual = log.Data.Skip( 1 ).First();
-			Assert.Equal( ex, actual.Exception );
+			Assert.Equal( errorMessage, actual.Exception.Message );
 			Assert.Equal( LogLevel.Error, actual.LogLevel );
 			Assert.Equal( "GetEvents threw an exception.", actual.Message );
 		}
 
 		[Fact]
 		public async Task LogsOutroMessageOnError() {
-			Exception ex = new Exception();
-
-			Mock
-				.Arrange( () => this.EventsRepository.Select( default ) )
-				.Throws( ex );
+			this.Database.AddSqlException();
 
 			TestLogger log = new TestLogger();
 			await this.Controller.Run( null, log );
