@@ -58,7 +58,25 @@ INSERT Events ( Id, Name, StartDate, EndDate ) VALUES
 	( 2018, 'DevSpace 2018', '2018-10-12 00:00:00', '2018-10-13 00:00:00' ),
 	( 2019, 'DevSpace 2019', '2019-10-11 00:00:00', '2019-10-12 00:00:00' ),
 	( 2020, 'DevSpace 2020', '2020-09-11 00:00:00', '2020-09-11 00:00:00' );
-";
+
+INSERT SponsorLevels ( DisplayOrder, Name, Cost, DisplayInEmails, DisplayInSidebar, DisplayLink, TimeOnScreen, Tickets, Discount, PreConEmail, MidConEmail, PostConEmail )
+VALUES
+	(  1,	'Premere',			10000,	1,	1,	1,	0,	15,	25,	1,	1,	1 ),
+	(  2,	'Diamond',			5000,	1,	1,	1,	0,	10,	15,	1,	1,	0 ),
+	(  3,	'Meal',				5000,	1,	1,	1,	0,	10,	15,	1,	1,	0 ),
+	(  4,	'USB',				3000,	1,	1,	1,	0,	10,	10,	1,	0,	0 ),
+	(  5,	'Social',			2500,	1,	1,	1,	0,	8,	10,	1,	0,	0 ),
+	(  7,	'Snack',			2500,	0,	0,	1,	0,	8,	10,	1,	0,	0 ),
+	(  6,	'Gold',				2000,	0,	1,	1,	30,	8,	10,	1,	0,	0 ),
+	(  8,	'Supplies',			1000,	0,	0,	1,	0,	5,	5,	0,	0,	0 ),
+	(  9,	'Silver',			1000,	0,	0,	1,	0,	5,	5,	0,	0,	0 ),
+	( 10,	'Bronze',			500,	0,	0,	1,	0,	3,	0,	0,	0,	0 ),
+	( 11,	'In-Kind',			0,		0,	0,	1,	0,	0,	0,	0,	0,	0 ),
+	( 12,	'Amazing Sponsors',	500,	0,	1,	1,	60,	0,	0,	0,	0,	0 ),
+	( 13,	'Special Sponsors',	250,	0,	0,	1,	30,	0,	0,	0,	0,	0 ),
+	( 14,	'Image Sponsors',	100,	0,	0,	1,	15,	0,	0,	0,	0,	0 ),
+	( 15,	'Link Sponsors',	50,		0,	0,	1,	0,	0,	0,	0,	0,	0 ),
+	( 16,	'Sponsors',			1,		0,	0,	0,	0,	0,	0,	0,	0,	0 );";
 					command.ExecuteNonQuery();
 				}
 			}

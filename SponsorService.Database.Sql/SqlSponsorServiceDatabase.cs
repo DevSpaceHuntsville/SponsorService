@@ -23,6 +23,8 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 
 		public IEventsRepository EventsRepository => new EventsRepository( this );
 
+		public ISponsorLevelsRepository SponsorLevelsRepository => new SponsorLevelsRepository( this );
+
 		private void UpdateDatabase() {
 			using( SqlConnection connection = new SqlConnection( ConnectionString ) ) {
 				connection.Open();
