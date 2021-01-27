@@ -11,33 +11,34 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace DevSpaceHuntsville.SponsorService {
-	public class GetEvent {
+	public class GetSponsorLevel {
 		private readonly IConfiguration Configuration;
 		private readonly ISponsorServiceDatabase Database;
 
-		public GetEvent( IConfiguration config, ISponsorServiceDatabase database ) {
+		public GetSponsorLevel( IConfiguration config, ISponsorServiceDatabase database ) {
 			this.Database = database;
 			this.Configuration = config;
 		}
 
-		[FunctionName( "GetEvent" )]
+		[FunctionName( "GetSponsorLevel" )]
 		public async Task<IActionResult> Run(
-			[HttpTrigger( AuthorizationLevel.Anonymous, "get", Route = "v1/events/{id}" )] HttpRequest req,
+			[HttpTrigger( AuthorizationLevel.Anonymous, "get", Route = "v1/sponsorlevels/{id:int}" )]
+			HttpRequest req,
 			int id,
 			ILogger log
 		) {
-			log.LogInformation( "GetEvent processed a request." );
+			log.LogInformation( "GetSponsorLevel processed a request." );
 
 			try {
-				Event result = await this.Database.EventsRepository.Select( id );
+				SponsorLevel result = await this.Database.SponsorLevelsRepository.Select( id );
 				return null == result
 					? (IActionResult)new NotFoundResult()
 					: (IActionResult)new OkObjectResult( result );
 			} catch( Exception ex ) {
-				log.LogError( ex, "GetEvent threw an exception." );
+				log.LogError( ex, "GetSponsorLevel threw an exception." );
 				return new InternalServerErrorResult();
 			} finally {
-				log.LogInformation( "GetEvent finished a request." );
+				log.LogInformation( "GetSponsorLevel finished a request." );
 			}
 		}
 	}

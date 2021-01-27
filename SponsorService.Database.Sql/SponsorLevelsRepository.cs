@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DevSpace.Common.Entities;
@@ -13,7 +14,22 @@ namespace DevSpaceHuntsville.SponsorService.Database.Sql {
 		public SponsorLevelsRepository( ISponsorServiceDatabase database ) =>
 			this.Database = database;
 
-		public async Task<SponsorLevel> Select( int key, CancellationToken token = default ) => throw new System.NotImplementedException();
+		public async Task<SponsorLevel> Select( int key, CancellationToken token = default ) {
+			using( DbConnection dbConnection = Database.GetConnection() ) {
+				await dbConnection.OpenAsync();
+
+				using( DbCommand dbCommand = dbConnection.CreateCommand() ) {
+					dbCommand.CommandText = string.Format( BaseSelectQuery, "WHERE Id = @Id" );
+					dbCommand.Parameters.Add(
+						Database.CreateParameter( "Id", System.Data.DbType.Int32, key )
+					);
+
+					using( DbDataReader reader = await dbCommand.ExecuteReaderAsync( token ) )
+						return ( await reader.ReadJson<SponsorLevel>() )
+							.FirstOrDefault();
+				}
+			}
+		}
 		public async Task<IEnumerable<SponsorLevel>> Select( IEnumerable<int> keys, CancellationToken token = default ) => throw new System.NotImplementedException();
 		public async Task<IEnumerable<SponsorLevel>> Select( CancellationToken token = default ) {
 			using( DbConnection dbConnection = Database.GetConnection() ) {
